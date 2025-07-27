@@ -19,7 +19,7 @@ cp .env.example .env
 - `SUPABASE_URL`: Your Supabase project URL
 - `SUPABASE_SERVICE_ROLE_KEY`: Your Supabase service role key (not anon key!)
 - `PORT`: Server port (default: 5000)
-- `FRONTEND_URL`: Frontend URL for CORS (default: http://localhost:3000)
+- `FRONTEND_URL`: Frontend URL for CORS (default: http://localhost:5173)
 
 ## Running the Server
 

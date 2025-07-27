@@ -24,7 +24,6 @@ import { useAuthContext } from '@/components/auth/AuthProvider'
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: Home },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
   { name: 'Users', href: '/users', icon: Users },
   { name: 'Activity Logs', href: '/activity', icon: Activity },
 ]

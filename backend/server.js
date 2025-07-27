@@ -23,7 +23,7 @@ export const supabase = createClient(
 
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
   credentials: true
 }));
 
@@ -41,7 +41,6 @@ import authRoutes from './routes/auth.js';
 import activityRoutes from './routes/activity.js';
 import usersRoutes from './routes/users.js';
 import servicesRoutes from './routes/services.js';
-import analyticsRoutes from './routes/analytics.js';
 import appUsersRoutes from './routes/app-users.js';
 import profilesRoutes from './routes/profiles.js';
 
@@ -50,7 +49,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/activity', activityRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/services', servicesRoutes);
-app.use('/api/analytics', analyticsRoutes);
 app.use('/api/app-users', appUsersRoutes);
 app.use('/api/profiles', profilesRoutes);
 
@@ -120,7 +118,7 @@ process.on('SIGINT', () => {
 
 app.listen(PORT, () => {
   console.log(`🚀 Backend server running on port ${PORT}`);
-  console.log(`📊 Dashboard: ${process.env.FRONTEND_URL || 'http://localhost:3000'}`);
+  console.log(`📊 Dashboard: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`);
   console.log(`🗄️  Using Supabase database`);
   console.log(`🔧 Environment: ${process.env.NODE_ENV || 'development'}`);
 });

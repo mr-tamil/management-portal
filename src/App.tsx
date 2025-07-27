@@ -4,7 +4,6 @@ import { AuthProvider, useAuthContext } from '@/components/auth/AuthProvider'
 import AuthPage from '@/components/auth/AuthPage'
 import DashboardLayout from '@/components/layout/DashboardLayout'
 import DashboardPage from '@/pages/DashboardPage'
-import AnalyticsPage from '@/pages/AnalyticsPage'
 import UsersPage from '@/pages/UsersPage'
 import UserDetailPage from '@/pages/UserDetailPage'
 import ServiceDetailPage from '@/pages/ServiceDetailPage'
@@ -42,16 +41,6 @@ function AppContent() {
                 transition={{ duration: 0.3 }}
               >
                 <DashboardPage />
-              </motion.div>
-            } />
-            <Route path="/analytics" element={
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3 }}
-              >
-                <AnalyticsPage />
               </motion.div>
             } />
             <Route path="/users" element={

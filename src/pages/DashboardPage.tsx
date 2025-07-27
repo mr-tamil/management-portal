@@ -74,8 +74,8 @@ export default function DashboardPage() {
           </p>
         </div>
         <Button asChild>
-          <Link to="/analytics">
-            View Analytics
+          <Link to="/users">
+            View Users
             <ArrowUpRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
