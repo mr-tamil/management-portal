@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, User, Shield, Search } from 'lucide-react'
 import {
@@ -62,6 +62,18 @@ export default function AddUserToServiceDialog({
   const [searchResults, setSearchResults] = useState<any[]>([])
   const [searching, setSearching] = useState(false)
   const [userSelectOpen, setUserSelectOpen] = useState(false)
+  const userSelectRef = useRef<HTMLDivElement>(null)
+
+  // Click outside handler for custom dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userSelectOpen && userSelectRef.current && !userSelectRef.current.contains(event.target as Node)) {
+        setUserSelectOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [userSelectOpen])
 
   const { toast } = useToast()
   const { searchUsers } = useUsers()
@@ -167,72 +179,79 @@ export default function AddUserToServiceDialog({
           {/* User Selection with Search */}
           <div className="space-y-2">
             <Label htmlFor="user">Select User</Label>
-            <Popover open={userSelectOpen} onOpenChange={setUserSelectOpen}>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  role="combobox"
-                  aria-expanded={userSelectOpen}
-                  className="w-full justify-between"
-                >
-                  {selectedUser ? (
-                    <div className="flex items-center gap-2">
-                      <Avatar className="h-6 w-6">
-                        <AvatarImage src={selectedUser.avatar_url || undefined} />
-                        <AvatarFallback className="text-xs">
-                          {selectedUser.full_name.split(' ').map((n: string) => n[0]).join('')}
-                        </AvatarFallback>
-                      </Avatar>
-                      <span>{selectedUser.full_name}</span>
-                    </div>
-                  ) : (
-                    "Search and select a user..."
-                  )}
-                  <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-full p-0" align="start">
-                <Command shouldFilter={false}>
-                  <CommandInput
-                    placeholder="Search users by name or email..."
-                    value={searchTerm}
-                    onValueChange={setSearchTerm}
-                  />
-                  <CommandList>
-                    <CommandEmpty>
-                      {searching ? "Searching..." : searchTerm ? "No users found." : "Start typing to search users..."}
-                    </CommandEmpty>
-                    {searchResults.length > 0 && (
-                      <CommandGroup>
-                        {searchResults.map((user) => (
-                          <CommandItem
-                            key={user.id}
-                            value={user.id}
-                            onSelect={() => {
-                              setSelectedUserId(user.id)
-                              setUserSelectOpen(false)
-                            }}
-                          >
-                            <div className="flex items-center gap-2 w-full">
-                              <Avatar className="h-6 w-6">
-                                <AvatarImage src={user.avatar_url || undefined} />
-                                <AvatarFallback className="text-xs">
-                                  {user.full_name.split(' ').map((n: string) => n[0]).join('')}
-                                </AvatarFallback>
-                              </Avatar>
-                              <div className="flex-1">
-                                <div className="font-medium">{user.full_name}</div>
-                                <div className="text-xs text-muted-foreground">{user.email}</div>
-                              </div>
+            <div className="relative" ref={userSelectRef}>
+              <Button
+                variant="outline"
+                role="combobox"
+                type="button"
+                aria-expanded={userSelectOpen}
+                className="w-full justify-between"
+                onClick={() => setUserSelectOpen(!userSelectOpen)}
+              >
+                {selectedUser ? (
+                  <div className="flex items-center gap-2">
+                    <Avatar className="h-6 w-6">
+                      <AvatarImage src={selectedUser.avatar_url || undefined} />
+                      <AvatarFallback className="text-xs">
+                        {selectedUser.full_name.split(' ').map((n: string) => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span>{selectedUser.full_name}</span>
+                  </div>
+                ) : (
+                  "Search and select a user..."
+                )}
+                <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+              {userSelectOpen && (
+                <div className="absolute top-full left-0 right-0 z-50 mt-1 bg-popover border rounded-md shadow-md max-h-60 overflow-hidden">
+                  <div className="p-2">
+                    <input
+                      type="text"
+                      placeholder="Search users by name or email..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      autoFocus
+                    />
+                  </div>
+                  <div className="max-h-48 overflow-y-auto">
+                    {searching ? (
+                      <div className="px-3 py-2 text-sm text-muted-foreground">Searching...</div>
+                    ) : searchResults.length > 0 ? (
+                      searchResults.map((user) => (
+                        <button
+                          key={user.id}
+                          type="button"
+                          className="w-full px-3 py-2 text-left hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none"
+                          onClick={() => {
+                            setSelectedUserId(user.id)
+                            setUserSelectOpen(false)
+                          }}
+                        >
+                          <div className="flex items-center gap-2 w-full">
+                            <Avatar className="h-6 w-6">
+                              <AvatarImage src={user.avatar_url || undefined} />
+                              <AvatarFallback className="text-xs">
+                                {user.full_name.split(' ').map((n: string) => n[0]).join('')}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1">
+                              <div className="font-medium">{user.full_name}</div>
+                              <div className="text-xs text-muted-foreground">{user.email}</div>
                             </div>
-                          </CommandItem>
-                        ))}
-                      </CommandGroup>
+                          </div>
+                        </button>
+                      ))
+                    ) : searchTerm ? (
+                      <div className="px-3 py-2 text-sm text-muted-foreground">No users found.</div>
+                    ) : (
+                      <div className="px-3 py-2 text-sm text-muted-foreground">Start typing to search users...</div>
                     )}
-                  </CommandList>
-                </Command>
-              </PopoverContent>
-            </Popover>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Role Selection */}

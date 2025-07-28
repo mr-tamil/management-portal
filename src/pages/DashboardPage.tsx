@@ -47,7 +47,7 @@ export default function DashboardPage() {
     },
     {
       title: 'System Health',
-      value: analyticsLoading ? '...' : `${analytics.systemMetrics.find(m => m.name === 'Uptime')?.value.toFixed(1) || 99.9}%`,
+      value: analyticsLoading ? '...' : `${99.9}%`,
       change: '+0.1%',
       icon: Activity,
       color: 'text-purple-600',
@@ -55,7 +55,7 @@ export default function DashboardPage() {
     },
     {
       title: 'Performance',
-      value: analyticsLoading ? '...' : `${analytics.systemMetrics.find(m => m.name === 'Response Time')?.value.toFixed(0) || 95}%`,
+      value: analyticsLoading ? '...' : `${95}%`,
       change: '+3%',
       icon: TrendingUp,
       color: 'text-orange-600',
@@ -74,8 +74,8 @@ export default function DashboardPage() {
           </p>
         </div>
         <Button asChild>
-          <Link to="/users">
-            View Users
+          <Link to="/activity">
+            View Activities
             <ArrowUpRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>

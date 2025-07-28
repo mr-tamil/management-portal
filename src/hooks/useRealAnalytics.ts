@@ -22,7 +22,6 @@ export const useRealAnalytics = () => {
       setError(null)
 
       // Fetch analytics data from backend
-      const analyticsData = await apiCall('/api/analytics')
       
       // Fetch additional metrics
       const [usersResponse, servicesResponse] = await Promise.all([
@@ -34,12 +33,8 @@ export const useRealAnalytics = () => {
       const totalUsers = usersResponse?.length || 0
       const activeServices = servicesResponse?.filter((s: any) => s.status === 'active')?.length || 0
       
-      // Calculate average response time from system metrics
-      const responseTimeMetric = analyticsData.systemMetrics?.find((m: any) => m.name === 'Response Time')
-
       setAnalytics({
-        ...analyticsData,
-        totalUsers,
+        ...totalUsers,
         activeServices,
       })
     } catch (err: any) {

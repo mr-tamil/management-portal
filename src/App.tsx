@@ -102,9 +102,7 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <AppContent />
   )
 }
 
