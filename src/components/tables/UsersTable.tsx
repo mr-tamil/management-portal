@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useGetUsers, useDeleteUser } from '../../hooks/useUsers';
 import { useAuth } from '../../hooks/useAuth';
-import { UserProfile, UserProfileWithCount } from '../../lib/types';
-import { MoreVertical, Edit, Trash2, ChevronLeft, ChevronRight, Briefcase } from 'lucide-react';
+import type { UserProfile, UserProfileWithCount } from '../../lib/types';
+import { Edit, Trash2, ChevronLeft, ChevronRight, Briefcase } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import Modal from '../ui/Modal';
 import EditRoleForm from '../forms/EditRoleForm';
@@ -38,6 +38,11 @@ const UsersTable = ({ searchTerm }: { searchTerm: string }) => {
 
   if (isError) {
     return <div className="text-center p-4 text-red-500">Error: {(error as Error).message}</div>;
+  }
+
+  // Add a guard for data
+  if (!data) {
+    return <div className="text-center p-4">No data available.</div>;
   }
 
   const { users, totalCount } = data;

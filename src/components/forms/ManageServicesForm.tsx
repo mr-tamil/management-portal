@@ -1,10 +1,15 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
 import { useGetServices, useUpdateUserServices } from '../../hooks/useServices';
-import { UserProfile } from '../../lib/types';
+import type { UserProfile } from '../../lib/types';
 import { toast } from 'react-hot-toast';
 import { supabase } from '../../lib/supabase';
 import { useQuery } from '@tanstack/react-query';
+
+interface ManageServicesFormData {
+  serviceIds: string[];
+}
 
 interface ManageServicesFormProps {
   user: UserProfile;
@@ -26,7 +31,7 @@ const useUserServices = (userId: string) => {
 };
 
 const ManageServicesForm = ({ user, onSuccess }: ManageServicesFormProps) => {
-  const { register, handleSubmit, formState: { isSubmitting }, reset } = useForm();
+  const { register, handleSubmit, formState: { isSubmitting }, reset } = useForm<ManageServicesFormData>();
 
   const { data: allServices, isLoading: isLoadingAllServices } = useGetServices();
   const { data: userServiceIds, isLoading: isLoadingUserServices } = useUserServices(user.id);
@@ -39,7 +44,7 @@ const ManageServicesForm = ({ user, onSuccess }: ManageServicesFormProps) => {
     }
   }, [userServiceIds, reset]);
 
-  const onSubmit = (data: { serviceIds: string[] }) => {
+  const onSubmit: SubmitHandler<ManageServicesFormData> = (data) => {
     const selectedServiceIds = Array.from(data.serviceIds || []);
     updateServicesMutation.mutate({ userId: user.id, serviceIds: selectedServiceIds }, {
       onSuccess: () => {

@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '../lib/supabase';
-import { Service } from '../lib/types';
+import type { Service } from '../lib/types';
 
 // --- Queries ---
 

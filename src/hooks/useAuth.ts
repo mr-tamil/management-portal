@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from '../lib/supabase';
-import { Session, User } from '@supabase/supabase-js';
+import type { Session, User } from '@supabase/supabase-js';
 
 // Re-defining the types here as they are not yet in types.ts
 export type UserRole = 'user' | 'admin' | 'super_admin';
@@ -10,10 +10,8 @@ interface AuthState {
   user: User | null;
   role: UserRole | null;
   loading: boolean;
-  setSession: (session: Session | null) => void;
-  setUserAndRole: (user: User | null, role: UserRole | null) => void;
+  setAuthState: (session: Session | null, role: UserRole | null) => void;
   setLoading: (loading: boolean) => void;
-  logout: () => void;
 }
 
 const useAuthStore = create<AuthState>((set) => ({
@@ -21,16 +19,14 @@ const useAuthStore = create<AuthState>((set) => ({
   user: null,
   role: null,
   loading: true,
-  setSession: (session) => set({ session, user: session?.user ?? null }),
-  setUserAndRole: (user, role) => set({ user, role, session: supabase.auth.getSession() ? (supabase.auth.getSession() as unknown as Session) : null }),
+  setAuthState: (session, role) => set({ session, user: session?.user ?? null, role }),
   setLoading: (loading) => set({ loading }),
-  logout: () => set({ session: null, user: null, role: null }),
 }));
 
 export const useAuth = useAuthStore;
 
 // Standalone functions to be called from components
-export const login = async (email, password) => {
+export const login = async (email: string, password: string) => {
   const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password,
