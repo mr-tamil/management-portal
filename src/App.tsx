@@ -35,48 +35,35 @@ const ProtectedRoute = () => {
 };
 
 const App = () => {
-  const { setUserAndRole, setLoading, logout: clearAuthStore } = useAuth();
+  const { setAuthState, setLoading } = useAuth();
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         if (session?.user) {
           const role = await fetchUserRole();
-          if (role === 'user') {
-            toast.error("You don't have permission to access this system.");
-            await authLogout(); // This will trigger another auth change to null
+          if (role && role !== 'user') {
+            setAuthState(session, role);
           } else {
-            setUserAndRole(session.user, role);
+            if (role === 'user') {
+              toast.error("You don't have permission to access this system.");
+            }
+            await authLogout(); // This will trigger another auth change to null
+            setAuthState(null, null);
           }
         } else {
-          clearAuthStore();
+          setAuthState(null, null);
         }
         setLoading(false);
       }
     );
 
-    // Initial load check
-    const checkInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        const role = await fetchUserRole();
-        if (role === 'user') {
-          await authLogout();
-        } else {
-          setUserAndRole(session.user, role);
-        }
-      } else {
-        clearAuthStore();
-      }
-      setLoading(false);
-    };
-
-    checkInitialSession();
+    setLoading(true); // Set loading true on initial mount
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [setUserAndRole, setLoading, clearAuthStore]);
+  }, [setAuthState, setLoading]);
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -1,25 +1,31 @@
 import { useForm } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
 import { useInviteUser } from '../../hooks/useUsers';
 import { useGetServices } from '../../hooks/useServices';
 import { useAuth } from '../../hooks/useAuth';
-import { UserRole } from '../../lib/types';
+import type { UserRole } from '../../lib/types';
 import { toast } from 'react-hot-toast';
+
+interface InviteFormData {
+  email: string;
+  username: string;
+  role: UserRole;
+  serviceIds: string[];
+}
 
 interface InviteUserFormProps {
   onSuccess: () => void;
 }
 
 const InviteUserForm = ({ onSuccess }: InviteUserFormProps) => {
-  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm();
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<InviteFormData>();
   const inviteUserMutation = useInviteUser();
   const { role: currentUserRole } = useAuth();
   const { data: services, isLoading: isLoadingServices } = useGetServices();
 
-  const onSubmit = async (data: { email: string, username: string, role: UserRole, serviceIds: string[] }) => {
-    // Extract serviceIds and convert from array of strings to what the mutation expects
-    const selectedServiceIds = Array.from(data.serviceIds || []);
-
-    inviteUserMutation.mutate({ ...data, serviceIds: selectedServiceIds }, {
+  const onSubmit: SubmitHandler<InviteFormData> = async (data) => {
+    // The data from react-hook-form is already in the correct shape.
+    inviteUserMutation.mutate(data, {
       onSuccess: () => {
         toast.success(`Invitation sent to ${data.email}`);
         reset();

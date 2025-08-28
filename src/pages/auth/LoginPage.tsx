@@ -1,13 +1,19 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
 import { login } from '../../hooks/useAuth';
 import { Toaster, toast } from 'react-hot-toast';
 
+interface LoginFormData {
+  email: string;
+  password: string;
+}
+
 const LoginPage = () => {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormData>();
   const [error, setError] = useState('');
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     try {
       setError('');
       await login(data.email, data.password);

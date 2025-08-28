@@ -1,8 +1,13 @@
 import { useForm } from 'react-hook-form';
+import type { SubmitHandler } from 'react-hook-form';
 import { useUpdateUserRole } from '../../hooks/useUsers';
 import { useAuth } from '../../hooks/useAuth';
-import { UserProfile, UserRole } from '../../lib/types';
+import type { UserProfile, UserRole } from '../../lib/types';
 import { toast } from 'react-hot-toast';
+
+interface EditRoleFormData {
+  role: UserRole;
+}
 
 interface EditRoleFormProps {
   user: UserProfile;
@@ -10,7 +15,7 @@ interface EditRoleFormProps {
 }
 
 const EditRoleForm = ({ user, onSuccess }: EditRoleFormProps) => {
-  const { register, handleSubmit, formState: { isSubmitting } } = useForm({
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<EditRoleFormData>({
     defaultValues: {
       role: user.role,
     }
@@ -18,7 +23,7 @@ const EditRoleForm = ({ user, onSuccess }: EditRoleFormProps) => {
   const updateUserRoleMutation = useUpdateUserRole();
   const { role: currentUserRole } = useAuth();
 
-  const onSubmit = async (data: { role: UserRole }) => {
+  const onSubmit: SubmitHandler<EditRoleFormData> = async (data) => {
     if (data.role === user.role) {
         toast.error("The new role is the same as the current role.");
         return;
