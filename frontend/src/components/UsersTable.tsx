@@ -1,15 +1,15 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import { useUsers, useDeleteUser, useResetPassword, useBanUser } from '@/src/hooks/useUsers'
-import { useAuth } from '@/src/hooks/useAuth'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/src/components/ui/table'
-import { Button } from '@/src/components/ui/button'
-import { Input } from '@/src/components/ui/input'
-import { Badge } from '@/src/components/ui/badge'
-import { Card, CardContent } from '@/src/components/ui/card'
+import { useUsers, useDeleteUser, useResetPassword, useBanUser } from '@/hooks/useUsers'
+import { useAuth } from '@/hooks/useAuth'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent } from '@/components/ui/card'
 import { ManageUserDialog } from './ManageUserDialog' // New component
-import { formatDate } from '@/src/utils/utils'
+import { formatDate } from '@/utils/utils'
 import { 
   Search, 
   RefreshCw,
@@ -20,12 +20,12 @@ import {
   Clock,
   ShieldOff,
 } from 'lucide-react'
-import { useServices } from '@/src/hooks/useServices'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/components/ui/select'
+import { useServices } from '@/hooks/useServices'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { EnhancedPagination } from './EnhancedPagination'
-import { debounce } from '@/src/utils/performance'
-import { usePrefetchNextPage } from '@/src/hooks/useOptimizedQueries'
-import type { UserWithRoles } from '@/src/types/database'
+import { debounce } from '@/utils/performance'
+import { usePrefetchNextPage } from '@/hooks/useOptimizedQueries'
+import type { UserWithRoles } from '@/types/database'
 
 export function UsersTable() {
   const { role: currentUserRole } = useAuth()

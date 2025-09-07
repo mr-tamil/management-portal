@@ -1,10 +1,10 @@
 'use client'
 
 import React from 'react'
-import { Button } from '@/src/components/ui/button'
-import { Card, CardContent } from '@/src/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react'
-import { createPaginationInfo } from '@/src/utils/performance'
+import { createPaginationInfo } from '@/utils/performance'
 
 interface EnhancedPaginationProps {
   currentPage: number

@@ -1,8 +1,8 @@
 'use client'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { apiService } from '@/src/services/api'
-import type { AddUserToServiceRequest } from '@/src/types/database'
+import { apiService } from '@/services/api'
+import type { AddUserToServiceRequest } from '@/types/database'
 import { toast } from 'sonner'
 
 export function useServices() {

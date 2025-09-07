@@ -1,19 +1,19 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useActivityLogsWithSearch } from '@/src/hooks/useUsers';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/src/components/ui/table';
-import { Button } from '@/src/components/ui/button';
-import { Input } from '@/src/components/ui/input';
-import { Badge } from '@/src/components/ui/badge';
-import { Card, CardContent } from '@/src/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/components/ui/select';
-import { formatDate } from '@/src/utils/utils';
+import { useActivityLogsWithSearch } from '@/hooks/useUsers';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { formatDate } from '@/utils/utils';
 import { ChevronLeft, ChevronRight, FileText, Activity, AlertCircle, RefreshCw, Clock, User, Target, Search, Filter } from 'lucide-react';
 import { EnhancedPagination } from './EnhancedPagination'
-import { debounce } from '@/src/utils/performance'
-import { usePrefetchNextPage } from '@/src/hooks/useOptimizedQueries'
-import type { AuditLog } from '@/src/types/database';
+import { debounce } from '@/utils/performance'
+import { usePrefetchNextPage } from '@/hooks/useOptimizedQueries'
+import type { AuditLog } from '@/types/database';
 
 const ACTION_DISPLAY_NAMES: Record<string, string> = {
   'user.create': 'User Created',

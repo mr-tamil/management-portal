@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useAuth } from '@/src/hooks/useAuth'
-import { Button } from '@/src/components/ui/button'
-import { Input } from '@/src/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card'
+import { useAuth } from '@/hooks/useAuth'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { LogIn, Mail, Lock, Shield, AlertCircle } from 'lucide-react'
 
 interface LoginFormProps {

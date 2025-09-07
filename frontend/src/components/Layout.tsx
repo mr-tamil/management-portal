@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import { useAuth } from '@/src/hooks/useAuth'
-import { Button } from '@/src/components/ui/button'
+import { useAuth } from '@/hooks/useAuth'
+import { Button } from '@/components/ui/button'
 import { LogOut, Users } from 'lucide-react'
 
 interface LayoutProps {

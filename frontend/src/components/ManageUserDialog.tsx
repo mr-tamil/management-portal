@@ -4,15 +4,15 @@ import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useUpdateUser, useDeleteUser, useResetPassword, useBanUser } from '@/src/hooks/useUsers'
-import { useServices, useUserServiceRoles, useAddUserToService, useRemoveUserFromService, useUpdateUserRole } from '@/src/hooks/useServices'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/src/components/ui/dialog'
-import { Button } from '@/src/components/ui/button'
-import { Input } from '@/src/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/components/ui/select'
-import { Badge } from '@/src/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/src/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/src/components/ui/tabs'
+import { useUpdateUser, useDeleteUser, useResetPassword, useBanUser } from '@/hooks/useUsers'
+import { useServices, useUserServiceRoles, useAddUserToService, useRemoveUserFromService, useUpdateUserRole } from '@/hooks/useServices'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { Badge } from '@/components/ui/badge'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { 
   Settings, 
   User, 
@@ -28,8 +28,8 @@ import {
   ShieldCheck,
   AlertTriangle,
 } from 'lucide-react'
-import type { UserWithRoles } from '@/src/types/database'
-import { formatDate } from '@/src/utils/utils'
+import type { UserWithRoles } from '@/types/database'
+import { formatDate } from '@/utils/utils'
 
 const editUserSchema = z.object({
   full_name: z.string().min(2, 'Full name must be at least 2 characters'),

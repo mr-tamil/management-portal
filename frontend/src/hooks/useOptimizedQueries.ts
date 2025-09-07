@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { apiService } from '@/src/services/api'
+import { apiService } from '@/services/api'
 
 // Optimized hook for dashboard stats that doesn't fetch full user data
 export function useDashboardStats() {
