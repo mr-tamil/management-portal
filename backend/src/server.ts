@@ -1,12 +1,12 @@
 import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
-import { logger } from '@/utils/logger'
-import { authRouter } from '@/routes/auth'
-import { usersRouter } from '@/routes/users'
-import { servicesRouter } from '@/routes/services'
-import { serviceRolesRouter } from '@/routes/service-roles'
-import { logsRouter } from '@/routes/logs'
+import { logger } from './utils/logger'
+import { authRouter } from './routes/auth'
+import { usersRouter } from './routes/users'
+import { servicesRouter } from './routes/services'
+import { serviceRolesRouter } from './routes/service-roles'
+import { logsRouter } from './routes/logs'
 
 const app = express()
 const PORT = process.env.PORT || 3001

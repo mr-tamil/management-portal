@@ -1,7 +1,7 @@
 import { Router } from 'express'
-import { supabaseAdmin } from '@/lib/supabase'
-import { authenticateRequest } from '@/middleware/auth'
-import { logger } from '@/utils/logger'
+import { supabaseAdmin } from '../lib/supabase'
+import { authenticateRequest } from '../middleware/auth'
+import { logger } from '../utils/logger'
 
 const router = Router()
 

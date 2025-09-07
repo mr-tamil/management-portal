@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import { supabaseClient, supabaseAdmin } from '@/lib/supabase'
+import { supabaseClient, supabaseAdmin } from '../lib/supabase'
 
 export interface AuthenticatedUser {
   id: string

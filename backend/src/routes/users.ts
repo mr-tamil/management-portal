@@ -1,11 +1,17 @@
 import { Router } from 'express'
 import { z } from 'zod'
-import { supabaseAdmin } from '@/lib/supabase'
-import { authenticateRequest } from '@/middleware/auth'
-import { logger } from '@/utils/logger'
-import { dbLogger } from '@/utils/db-logger'
+import { supabaseAdmin } from '../lib/supabase'
+import { authenticateRequest } from '../middleware/auth'
+import { logger } from '../utils/logger'
+import { dbLogger } from '../utils/db-logger'
+import type { User } from '@supabase/supabase-js'
 
 const router = Router()
+
+// Extend the User type to include banned_until
+interface ExtendedUser extends User {
+  banned_until?: string | null
+}
 
 const createUserSchema = z.object({
   username: z.string().min(2),
@@ -46,7 +52,7 @@ router.get('/', async (req, res) => {
         return res.status(500).json({ error: 'Failed to get users from authentication service' })
       }
 
-      let allUsers = authUsersResponse.users || []
+      let allUsers = authUsersResponse.users as ExtendedUser[] || []
 
       // Apply search filter early to reduce dataset size
       if (search) {
@@ -417,8 +423,8 @@ router.post('/:userId/ban', async (req, res) => {
       return res.status(500).json({ error: 'Could not verify target user roles.' });
     }
 
-    const isTargetAdministrationMember = targetServiceRoles.some(r => r.service.name === 'Administration');
-    const targetAdministrationRole = targetServiceRoles.find(r => r.service.name === 'Administration');
+    const isTargetAdministrationMember = targetServiceRoles?.some((r: any) => r.service?.name === 'Administration') || false;
+    const targetAdministrationRole = targetServiceRoles?.find((r: any) => r.service?.name === 'Administration');
 
     // Role-based permission checks
     if (req.user?.role === 'admin') {

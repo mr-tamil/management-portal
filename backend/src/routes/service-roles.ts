@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import { z } from 'zod'
-import { supabaseAdmin } from '@/lib/supabase'
-import { authenticateRequest } from '@/middleware/auth'
-import { logger } from '@/utils/logger'
-import { dbLogger } from '@/utils/db-logger'
+import { supabaseAdmin } from '../lib/supabase'
+import { authenticateRequest } from '../middleware/auth'
+import { logger } from '../utils/logger'
+import { dbLogger } from '../utils/db-logger'
 
 const router = Router()
 
