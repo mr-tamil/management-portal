@@ -17,7 +17,7 @@ export function Dashboard() {
   const users = usersResponse?.data?.users || []
   
   const adminUsers = users.filter(u => 
-    u.service_roles.some(sr => sr.service.name === 'Adminium' && sr.role === 'admin')
+    u.service_roles.some(sr => sr.service.name === 'Administration' && sr.role === 'admin')
   ).length
   
   const verifiedUsers = users.filter(u => u.email_confirmed_at).length
@@ -45,7 +45,7 @@ export function Dashboard() {
                 <Users className="h-6 w-6 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-4xl font-bold text-foreground">Adminium</h1>
+                <h1 className="text-4xl font-bold text-foreground">Administration</h1>
                 <p className="text-muted-foreground text-lg">User Management & System Administration</p>
               </div>
             </div>
@@ -108,7 +108,7 @@ export function Dashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-900">2</div>
-            <p className="text-xs text-orange-600 mt-1">Adminium & RMS</p>
+            <p className="text-xs text-orange-600 mt-1">Administration & RMS</p>
           </CardContent>
         </Card>
 

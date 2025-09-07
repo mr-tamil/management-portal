@@ -292,42 +292,42 @@ router.delete('/:userId', async (req, res) => {
       return res.status(403).json({ error: 'Admins cannot delete their own account.' })
     }
 
-    // Get Adminium service ID
-    const { data: adminiumService, error: serviceError } = await supabaseAdmin
+    // Get Administration service ID
+    const { data: administrationService, error: serviceError } = await supabaseAdmin
       .from('services')
       .select('id')
-      .eq('name', 'Adminium')
+      .eq('name', 'Administration')
       .single()
 
-    if (serviceError || !adminiumService) {
-      logger.error('Could not find Adminium service', { error: serviceError })
-      return res.status(500).json({ error: 'Adminium service not found.' })
+    if (serviceError || !administrationService) {
+      logger.error('Could not find Administration service', { error: serviceError })
+      return res.status(500).json({ error: 'Administration service not found.' })
     }
 
-    // Check if the user to be deleted is an Adminium admin
+    // Check if the user to be deleted is an Administration admin
     const { data: targetRole, error: targetRoleError } = await supabaseAdmin
       .from('service_roles')
       .select('role')
       .eq('user_id', userId)
-      .eq('service_id', adminiumService.id)
+      .eq('service_id', administrationService.id)
       .single()
 
-    // If the user is an Adminium admin, check the admin count
+    // If the user is an Administration admin, check the admin count
     if (!targetRoleError && targetRole?.role === 'admin') {
       const { count, error: countError } = await supabaseAdmin
         .from('service_roles')
         .select('*', { count: 'exact', head: true })
-        .eq('service_id', adminiumService.id)
+        .eq('service_id', administrationService.id)
         .eq('role', 'admin')
 
       if (countError) {
-        logger.error('Could not count Adminium admins', { error: countError })
+        logger.error('Could not count Administration admins', { error: countError })
         return res.status(500).json({ error: 'Could not verify admin count.' })
       }
 
       // Rule: Maintain a minimum of 2 admins
       if (count !== null && count < 3) {
-        return res.status(403).json({ error: 'Cannot delete admin. A minimum of 2 admins for the Adminium service is required.' })
+        return res.status(403).json({ error: 'Cannot delete admin. A minimum of 2 admins for the Administration service is required.' })
       }
     }
 
@@ -417,19 +417,19 @@ router.post('/:userId/ban', async (req, res) => {
       return res.status(500).json({ error: 'Could not verify target user roles.' });
     }
 
-    const isTargetAdminiumMember = targetServiceRoles.some(r => r.service.name === 'Adminium');
-    const targetAdminiumRole = targetServiceRoles.find(r => r.service.name === 'Adminium');
+    const isTargetAdministrationMember = targetServiceRoles.some(r => r.service.name === 'Administration');
+    const targetAdministrationRole = targetServiceRoles.find(r => r.service.name === 'Administration');
 
     // Role-based permission checks
     if (req.user?.role === 'admin') {
-      // Rule: Admin cannot ban another Adminium admin
-      if (targetAdminiumRole?.role === 'admin') {
+      // Rule: Admin cannot ban another Administration admin
+      if (targetAdministrationRole?.role === 'admin') {
         return res.status(403).json({ error: 'Admins cannot ban other admins.' });
       }
     } else if (req.user?.role === 'user') {
-      // Rule: User cannot ban any member of the Adminium service
-      if (isTargetAdminiumMember) {
-        return res.status(403).json({ error: 'Forbidden: You do not have permission to ban members of the Adminium service.' });
+      // Rule: User cannot ban any member of the Administration service
+      if (isTargetAdministrationMember) {
+        return res.status(403).json({ error: 'Forbidden: You do not have permission to ban members of the Administration service.' });
       }
     } else {
       // Should not happen if user.role is checked, but as a safeguard

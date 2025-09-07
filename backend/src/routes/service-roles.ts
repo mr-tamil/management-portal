@@ -28,9 +28,9 @@ router.post('/', async (req, res) => {
     const { data: serviceData } = await supabaseAdmin.from('services').select('name').eq('id', serviceId).single();
     const { data: userData } = await supabaseAdmin.auth.admin.getUserById(userId);
 
-    // Rule: Non-admins cannot add users to the Adminium service
-    if (req.user?.role === 'user' && serviceData?.name === 'Adminium') {
-      return res.status(403).json({ error: 'Forbidden: You do not have permission to manage roles in the Adminium service.' });
+    // Rule: Non-admins cannot add users to the Administration service
+    if (req.user?.role === 'user' && serviceData?.name === 'Administration') {
+      return res.status(403).json({ error: 'Forbidden: You do not have permission to manage roles in the Administration service.' });
     }
 
     const { error } = await supabaseAdmin
@@ -72,12 +72,12 @@ router.delete('/:userId/:serviceId', async (req, res) => {
     const { data: serviceData } = await supabaseAdmin.from('services').select('name').eq('id', serviceId).single();
     const { data: userData } = await supabaseAdmin.auth.admin.getUserById(userId);
 
-    // Rule: Non-admins cannot remove users from the Adminium service
-    if (req.user?.role === 'user' && serviceData?.name === 'Adminium') {
-      return res.status(403).json({ error: 'Forbidden: You do not have permission to manage roles in the Adminium service.' });
+    // Rule: Non-admins cannot remove users from the Administration service
+    if (req.user?.role === 'user' && serviceData?.name === 'Administration') {
+      return res.status(403).json({ error: 'Forbidden: You do not have permission to manage roles in the Administration service.' });
     }
 
-    // Check if the target user is an Adminium admin
+    // Check if the target user is an Administration admin
     const { data: targetRoleData, error: targetRoleError } = await supabaseAdmin
       .from('service_roles')
       .select('role')
@@ -89,8 +89,8 @@ router.delete('/:userId/:serviceId', async (req, res) => {
       logger.warn('Could not fetch target user role for deletion check', { userId, serviceId });
     }
 
-    // Rule: Maintain a minimum of 2 admins for Adminium service
-    if (serviceData?.name === 'Adminium' && targetRoleData?.role === 'admin') {
+    // Rule: Maintain a minimum of 2 admins for Administration service
+    if (serviceData?.name === 'Administration' && targetRoleData?.role === 'admin') {
       const { count, error: countError } = await supabaseAdmin
         .from('service_roles')
         .select('*', { count: 'exact', head: true })
@@ -98,12 +98,12 @@ router.delete('/:userId/:serviceId', async (req, res) => {
         .eq('role', 'admin');
 
       if (countError) {
-        logger.error('Could not count Adminium admins for removal check', { error: countError });
+        logger.error('Could not count Administration admins for removal check', { error: countError });
         return res.status(500).json({ error: 'Could not verify admin count.' });
       }
 
       if (count !== null && count <= 2) {
-        return res.status(403).json({ error: 'Cannot remove admin. A minimum of 2 admins for the Adminium service is required.' });
+        return res.status(403).json({ error: 'Cannot remove admin. A minimum of 2 admins for the Administration service is required.' });
       }
     }
 
@@ -142,22 +142,22 @@ router.put('/:userId/:serviceId', async (req, res) => {
     const { data: serviceData } = await supabaseAdmin.from('services').select('name').eq('id', serviceId).single();
     const { data: userData } = await supabaseAdmin.auth.admin.getUserById(userId);
 
-    // Rule: Non-admins cannot make themselves an admin in the Adminium service
-    if (req.user?.role === 'user' && serviceData?.name === 'Adminium' && req.user.id === userId && role === 'admin') {
+    // Rule: Non-admins cannot make themselves an admin in the Administration service
+    if (req.user?.role === 'user' && serviceData?.name === 'Administration' && req.user.id === userId && role === 'admin') {
       return res.status(403).json({ error: 'Forbidden: You cannot make yourself an admin.' });
     }
 
-    // Rule: Non-admins cannot update any roles in the Adminium service
-    if (req.user?.role === 'user' && serviceData?.name === 'Adminium') {
-      return res.status(403).json({ error: 'Forbidden: You do not have permission to manage roles in the Adminium service.' });
+    // Rule: Non-admins cannot update any roles in the Administration service
+    if (req.user?.role === 'user' && serviceData?.name === 'Administration') {
+      return res.status(403).json({ error: 'Forbidden: You do not have permission to manage roles in the Administration service.' });
     }
     
-    // Rule: Admin cannot make himself a user in the Adminium service
-    if (req.user?.role === 'admin' && serviceData?.name === 'Adminium' && req.user.id === userId && role === 'user') {
+    // Rule: Admin cannot make himself a user in the Administration service
+    if (req.user?.role === 'admin' && serviceData?.name === 'Administration' && req.user.id === userId && role === 'user') {
       return res.status(403).json({ error: 'Forbidden: Admins cannot demote their own account.' });
     }
 
-    // Check if the target user is an Adminium admin being demoted
+    // Check if the target user is an Administration admin being demoted
     const { data: targetRoleData, error: targetRoleError } = await supabaseAdmin
       .from('service_roles')
       .select('role')
@@ -169,8 +169,8 @@ router.put('/:userId/:serviceId', async (req, res) => {
       logger.warn('Could not fetch target user role for demotion check', { userId, serviceId });
     }
 
-    // Rule: Maintain a minimum of 2 admins when demoting an admin in Adminium
-    if (serviceData?.name === 'Adminium' && targetRoleData?.role === 'admin' && role === 'user') {
+    // Rule: Maintain a minimum of 2 admins when demoting an admin in Administration
+    if (serviceData?.name === 'Administration' && targetRoleData?.role === 'admin' && role === 'user') {
       const { count, error: countError } = await supabaseAdmin
         .from('service_roles')
         .select('*', { count: 'exact', head: true })
@@ -178,12 +178,12 @@ router.put('/:userId/:serviceId', async (req, res) => {
         .eq('role', 'admin');
 
       if (countError) {
-        logger.error('Could not count Adminium admins for demotion check', { error: countError });
+        logger.error('Could not count Administration admins for demotion check', { error: countError });
         return res.status(500).json({ error: 'Could not verify admin count.' });
       }
 
       if (count !== null && count <= 2) {
-        return res.status(403).json({ error: 'Cannot demote admin. A minimum of 2 admins for the Adminium service is required.' });
+        return res.status(403).json({ error: 'Cannot demote admin. A minimum of 2 admins for the Administration service is required.' });
       }
     }
 

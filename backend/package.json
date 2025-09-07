@@ -1,7 +1,7 @@
 {
-  "name": "adminium-backend",
+  "name": "administration-backend",
   "version": "1.0.0",
-  "description": "Adminium User Management System - Express.js Backend",
+  "description": "Administration User Management System - Express.js Backend",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",

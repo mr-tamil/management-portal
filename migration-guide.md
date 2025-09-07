@@ -1,12 +1,12 @@
 # Next.js to Vite + Express Migration Guide
 
 ## Overview
-This guide converts the Adminium Next.js application into separate frontend (Vite + React) and backend (Express.js) applications while maintaining all existing functionality.
+This guide converts the Administration Next.js application into separate frontend (Vite + React) and backend (Express.js) applications while maintaining all existing functionality.
 
 ## New Project Structure
 
 ```
-adminium/
+administration/
 ├── frontend/                    # Vite React application
 │   ├── public/
 │   │   ├── vite.svg

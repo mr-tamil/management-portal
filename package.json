@@ -1,7 +1,7 @@
 {
-  "name": "adminium-monorepo",
+  "name": "administration-monorepo",
   "version": "1.0.0",
-  "description": "Adminium User Management System - Vite + Express Application",
+  "description": "Administration User Management System - Vite + Express Application",
   "private": true,
   "scripts": {
     "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",

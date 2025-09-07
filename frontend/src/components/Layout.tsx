@@ -21,7 +21,7 @@ export function Layout({ children }: LayoutProps) {
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center mr-3">
                 <Users className="h-4 w-4 text-primary-foreground" />
               </div>
-              <h1 className="text-xl font-bold text-foreground">Adminium</h1>
+              <h1 className="text-xl font-bold text-foreground">Administration</h1>
             </div>
 
             <div className="flex items-center space-x-4">

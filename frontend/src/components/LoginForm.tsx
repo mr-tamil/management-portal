@@ -50,7 +50,7 @@ export function LoginForm({ initialError }: LoginFormProps) {
               </div>
             </div>
             <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Adminium
+              Administration
             </CardTitle>
             <p className="text-muted-foreground mt-2 text-lg">User Management System</p>
             <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
@@ -129,7 +129,7 @@ export function LoginForm({ initialError }: LoginFormProps) {
                 ) : (
                   <div className="flex items-center gap-2">
                     <LogIn className="h-5 w-5" />
-                    Sign In to Adminium
+                    Sign In to Administration
                   </div>
                 )}
               </Button>

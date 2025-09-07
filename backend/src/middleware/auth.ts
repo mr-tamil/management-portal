@@ -29,7 +29,7 @@ export async function authenticateRequest(req: Request, res: Response, next: Nex
       return res.status(401).json({ error: 'Unauthorized' })
     }
 
-    // Check if user has access to Adminium service
+    // Check if user has access to Administration service
     const { data: serviceRoles, error: roleError } = await supabaseAdmin
       .from('service_roles')
       .select(`
@@ -43,18 +43,18 @@ export async function authenticateRequest(req: Request, res: Response, next: Nex
       return res.status(500).json({ error: 'Internal server error' })
     }
 
-    const adminiumRole = serviceRoles.find(
-      (role: any) => role.service && role.service.name === 'Adminium'
+    const administrationRole = serviceRoles.find(
+      (role: any) => role.service && role.service.name === 'Administration'
     )
 
-    if (!adminiumRole) {
+    if (!administrationRole) {
       return res.status(403).json({ error: 'Access denied' })
     }
 
     req.user = {
       id: user.id,
       email: user.email!,
-      role: adminiumRole.role,
+      role: administrationRole.role,
     }
 
     next()

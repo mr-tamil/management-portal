@@ -1,11 +1,11 @@
-# Adminium - User Management System (Vite + Express)
+# Administration - User Management System (Vite + Express)
 
 A comprehensive user management system built with Vite (React), Express.js, TypeScript, and Supabase.
 
 ## Features
 
 - **Complete User Management**: Create, delete, and manage users through secure API routes
-- **Service-Based Access Control**: Assign users to services (Adminium, RMS Analysis) with role-based permissions
+- **Service-Based Access Control**: Assign users to services (Administration, RMS Analysis) with role-based permissions
 - **Secure Authentication**: Email/password login with Supabase Auth and Row Level Security
 - **Performance Optimized**: Pagination, search, filtering, and React Query for efficient data management
 - **Production Ready**: Comprehensive error handling, logging, and validation
@@ -53,7 +53,7 @@ shared/                     # Shared types and utilities
 - **Utils**: Helper functions and logging utilities
 
 ### Database (`supabase/migrations/`) - Unchanged
-- **Services**: Available services (Adminium, RMS Analysis)
+- **Services**: Available services (Administration, RMS Analysis)
 - **Service Roles**: User-service associations with roles (admin/user)
 - **Audit Logs**: Comprehensive activity tracking
 - **RLS Policies**: Row-level security for data protection
@@ -121,8 +121,8 @@ After setup, you'll need to manually create an admin user in your Supabase dashb
 2. Create a new user with email/password
 3. Go to the SQL Editor and run:
 ```sql
--- Get the Adminium service ID
-SELECT id FROM services WHERE name = 'Adminium';
+-- Get the Administration service ID
+SELECT id FROM services WHERE name = 'Administration';
 
 -- Insert admin role (replace the UUIDs with actual values)
 INSERT INTO service_roles (user_id, service_id, role)
@@ -252,3 +252,20 @@ cd backend
 npm run build
 npm run type-check
 ```
+
+### CHANGELOG
+firebase-v1.1.7
+  1. Actual Project Finished
+
+firebase-v1.1.8
+  1. Removed Home Sub Project
+  2. Structured Adminium Project
+
+Github/Adminium/v1.2.0
+  1. Converted to ViteApp + Express Server
+
+Github/Adminium-v1.2.1
+  1. Final Working Vite + Express Server No Error
+
+Github/Administration-v1.2.2
+  1. Renamed App to Administration

@@ -1,5 +1,5 @@
 /*
-  # Initial Schema Setup for Adminium
+  # Initial Schema Setup for Administration
 
   1. New Tables
     - `services`
@@ -19,7 +19,7 @@
     - Create indexes for performance optimization
 
   3. Initial Data
-    - Insert default services: "Adminium" and "RMS Analysis"
+    - Insert default services: "Administration" and "RMS Analysis"
 */
 
 -- Create services table
@@ -60,7 +60,7 @@ CREATE POLICY "Only admins can manage services"
       WHERE user_id = auth.uid() 
       AND role = 'admin'
       AND service_id IN (
-        SELECT id FROM services WHERE name = 'Adminium'
+        SELECT id FROM services WHERE name = 'Administration'
       )
     )
   );
@@ -77,7 +77,7 @@ CREATE POLICY "Users can read service roles"
       WHERE sr.user_id = auth.uid() 
       AND sr.role = 'admin'
       AND sr.service_id IN (
-        SELECT id FROM services WHERE name = 'Adminium'
+        SELECT id FROM services WHERE name = 'Administration'
       )
     )
   );
@@ -92,7 +92,7 @@ CREATE POLICY "Only admins can manage service roles"
       WHERE user_id = auth.uid() 
       AND role = 'admin'
       AND service_id IN (
-        SELECT id FROM services WHERE name = 'Adminium'
+        SELECT id FROM services WHERE name = 'Administration'
       )
     )
   );
@@ -104,6 +104,6 @@ CREATE INDEX IF NOT EXISTS idx_service_roles_role ON service_roles(role);
 
 -- Insert default services
 INSERT INTO services (name) VALUES 
-  ('Adminium'),
+  ('Administration'),
   ('RMS Analysis')
 ON CONFLICT (name) DO NOTHING;

@@ -26,15 +26,15 @@ CREATE INDEX idx_audit_logs_created_at ON public.audit_logs(created_at DESC);
 
 -- Note: RLS is handled at the API level by authenticating the request.
 -- A previous policy was causing errors due to a missing function.
--- The API endpoint /api/adminium/logs is protected by auth middleware.
+-- The API endpoint /api/administration/logs is protected by auth middleware.
 
 
 
 -- Enable Row Level Security on the audit_logs table
 ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
 
--- Policy: Allow Adminium members to read audit logs
-CREATE POLICY "Allow Adminium members to read audit logs"
+-- Policy: Allow Administration members to read audit logs
+CREATE POLICY "Allow Administration members to read audit logs"
 ON public.audit_logs
 FOR SELECT
 TO authenticated
@@ -43,7 +43,7 @@ USING (
     SELECT 1
     FROM public.service_roles sr
     JOIN public.services s ON sr.service_id = s.id
-    WHERE sr.user_id = auth.uid() AND s.name = 'Adminium'
+    WHERE sr.user_id = auth.uid() AND s.name = 'Administration'
   )
 );
 
